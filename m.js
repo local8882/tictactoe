@@ -154,3 +154,4 @@ Welcome to the weird gaem!1
 b("What would you like to do?")
 const option = prompt()
 handle(option)
+
