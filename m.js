@@ -9,8 +9,8 @@ function hasx(string){
 return string.toLowerCase().includes("x")
 }
 
-function hasy(string){
-    return string.toLowerCase().includes("y")
+function haso(string){
+    return string.toLowerCase().includes("o")
 }
 
 function handle(option){
@@ -22,8 +22,6 @@ function handle(option){
                 })
         setTimeout(()=>{
             a.clear()
-            const x = "X"
-            const o = "O"
             var table = `
             \n|____|____|____|\n|____|____|____|\n|____|____|____|`
             b(`
@@ -41,7 +39,7 @@ function handle(option){
             }
             var match = false
             while(!match){
-                var t = ["x","y"]
+                var t = ["x","o"]
                 for(var i = 0;i<t.length;i++){
                     b(`${t[i]}'s move.`)
                     const choice = prompt().toLowerCase()
@@ -54,12 +52,12 @@ function handle(option){
                         }
                         places[move] = `__${t[i]}_`
                         var newc = `
-                        |_${places[0]}__|_${places[1]}__|_${places[2]}|
-                        |_${places[3]}__|_${places[4]}__|_${places[5]}|
-                        |_${places[6]}__|_${places[7]}__|_${places[8]}|
-                        1       2      3
-                        4       5      6
-                        7       8      9 
+|_${places[0]}__|_${places[1]}__|_${places[2]}|
+|_${places[3]}__|_${places[4]}__|_${places[5]}|
+|_${places[6]}__|_${places[7]}__|_${places[8]}|
+1       2      3
+4       5      6
+7       8      9 
                         `
                         a.clear()
                         b(newc)
@@ -74,17 +72,28 @@ function handle(option){
                             if((hasx(places[0]) && hasx(places[4]) && hasx(places[8])))return true;
 
 
-                            if((hasy(places[0]) && hasy(places[1]) && hasy(places[2])))return true;
-                            if((hasy(places[3]) && hasy(places[4]) && hasy(places[5])))return true;
-                            if((hasy(places[6]) && hasy(places[7]) && hasy(places[8])))return true;
-                            if((hasy(places[0]) && hasy(places[3]) && hasy(places[6])))return true;
-                            if((hasy(places[1]) && hasy(places[4]) && hasy(places[7])))return true;
-                            if((hasy(places[2]) && hasy(places[5]) && hasy(places[8])))return true;
-                            if((hasy(places[2]) && hasy(places[4]) && hasy(places[6])))return true;
-                            if((hasy(places[0]) && hasy(places[4]) && hasy(places[8])))return true;
+                            if((haso(places[0]) && haso(places[1]) && haso(places[2])))return true;
+                            if((haso(places[3]) && haso(places[4]) && haso(places[5])))return true;
+                            if((haso(places[6]) && haso(places[7]) && haso(places[8])))return true;
+                            if((haso(places[0]) && haso(places[3]) && haso(places[6])))return true;
+                            if((haso(places[1]) && haso(places[4]) && haso(places[7])))return true;
+                            if((haso(places[2]) && haso(places[5]) && haso(places[8])))return true;
+                            if((haso(places[2]) && haso(places[4]) && haso(places[6])))return true;
+                            if((haso(places[0]) && haso(places[4]) && haso(places[8])))return true;
 
                         }
-                        
+
+                        function istie(){
+                            var hasval;
+                            for(const place in places){
+                                if(hasx(places[place]) || haso(places[place])){
+                                    continue
+                                } else{
+                                    return false
+                                }
+                            }
+                            return true
+                        }
                         if(checkifmatch()){
                             const winner = t[i]
                             match = true
@@ -95,13 +104,12 @@ function handle(option){
                             b("Press any key to continue")
                             prompt()
                             process.exit()
-                        } else if(checkifmatch()){
-                            const winner = t[i]
+                        } else if(istie()){
                             match = true
                             figlet("GG",(err,data)=>{
                                 b(chalk.blue(data))
                             })
-                            b(chalk.green(winner + " has won the game!"))
+                            b(chalk.green("The game has ended as a tie."))
                             b("Press any key to continue")
                             prompt()
                             process.exit()
